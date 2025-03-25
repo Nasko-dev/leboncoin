@@ -1,0 +1,12 @@
+.cursor {
+  color: #38bdf8;
+}
+
+.animate-gradient-text {
+  background: linear-gradient(45deg, #38bdf8, #818cf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  font-size: 2rem;
+}
