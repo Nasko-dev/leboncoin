@@ -2,6 +2,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { UserProvider } from "./Context/UserContext";
 
 /* ************************************************************************* */
 
@@ -9,6 +10,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Acceil from "./pages/Page_Acceil/Acceil";
 import PageAnnonces from "./pages/Page_Annonces/PageAnnonces";
+import Uploadannonces from "./pages/Page_UploadAnnonces/UploadAnnonces";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
@@ -30,6 +32,10 @@ const router = createBrowserRouter([
     path: "/annonces",
     element: <PageAnnonces />,
   },
+  {
+    path: "/upload-annonces",
+    element: <Uploadannonces />,
+  },
   // Try adding a new route! For example, "/about" with an About component
 ]);
 
@@ -44,8 +50,10 @@ if (rootElement == null) {
 // Render the app inside the root element
 createRoot(rootElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  </StrictMode>
 );
 
 /**

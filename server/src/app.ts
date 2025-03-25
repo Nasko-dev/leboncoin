@@ -1,10 +1,15 @@
 // Load the express module to create a web application
 
 import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 
 // Configure it
+
+app.use(cookieParser());
+app.use(express.json());
 
 /* ************************************************************************* */
 
@@ -18,11 +23,15 @@ const app = express();
 // You should NOT do that: such code uses the `cors` module to allow all origins, which can pose security issues.
 // For this pedagogical template, the CORS code allows CLIENT_URL in development mode (when process.env.CLIENT_URL is defined).
 
-import cors from "cors";
-
-if (process.env.CLIENT_URL != null) {
-  app.use(cors({ origin: [process.env.CLIENT_URL] }));
-}
+// CORS configuration
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+  })
+);
 
 // If you need to allow extra origins, you can add something like this:
 
