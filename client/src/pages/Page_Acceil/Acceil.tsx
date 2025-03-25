@@ -12,7 +12,6 @@ import {
 import "./Acceil.css";
 import TypewriterText from "../../composants/Annimation/TypewriterText/TypewriterText";
 import Navbar from "../../composants/NavBar/NavBar";
-
 export default function Acceil() {
   return (
     <div className="modern-landing">

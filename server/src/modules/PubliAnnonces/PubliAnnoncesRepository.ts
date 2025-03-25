@@ -7,13 +7,13 @@ export interface Annonce {
   description: string;
   price?: number;
   duree?: string;
-  user_id: string; // discord_id
   created_at: string;
   updated_at: string;
-  user?: {
+  user: {
     username: string;
     global_name: string;
     avatar: string | null;
+    discord_id: string;
   };
 }
 
@@ -23,6 +23,8 @@ export interface CreateAnnonce {
   price?: number;
   duree?: string;
   user_id: string;
+  category?: string;
+  skills?: string;
 }
 
 interface InsertResult {
@@ -53,6 +55,7 @@ export class PubliAnnoncesRepository {
       annonce.description,
       annonce.price ?? null,
       annonce.duree || "Non spécifiée",
+
       userId,
     ];
 
@@ -70,12 +73,38 @@ export class PubliAnnoncesRepository {
 
   public async getAnnonces(): Promise<Annonce[]> {
     const query = `
-      SELECT a.*, u.username, u.global_name, u.avatar 
+      SELECT 
+        a.id,
+        a.title,
+        a.description,
+        a.price,
+        a.duree,
+        a.created_at,
+        a.updated_at,
+        u.username,
+        u.global_name,
+        u.avatar,
+        u.discord_id
       FROM annonces a 
       LEFT JOIN users u ON a.user_id = u.id 
       ORDER BY a.created_at DESC
     `;
-    const [result] = await databaseClient.execute(query);
-    return result as Annonce[];
+    const [rows] = await databaseClient.execute(query);
+
+    return (rows as Array<Record<string, unknown>>).map((row) => ({
+      id: row.id as number,
+      title: row.title as string,
+      description: row.description as string,
+      price: row.price as number | undefined,
+      duree: row.duree as string | undefined,
+      created_at: row.created_at as string,
+      updated_at: row.updated_at as string,
+      user: {
+        username: row.username as string,
+        global_name: row.global_name as string,
+        avatar: row.avatar as string | null,
+        discord_id: row.discord_id as string,
+      },
+    }));
   }
 }

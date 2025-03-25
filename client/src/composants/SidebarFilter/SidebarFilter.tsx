@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FiCheck, FiSearch, FiX } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import "./SidebarFilter.css";
 
 interface SidebarFilterProps {
@@ -15,9 +15,7 @@ export default function SidebarFilter({
   onPriceChange,
   onCategoryChange,
   onExperienceChange,
-  onReset,
 }: SidebarFilterProps) {
-  const [isValidated, setIsValidated] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -60,57 +58,29 @@ export default function SidebarFilter({
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    if (isValidated) {
-      onSearch(e.target.value);
-    }
+    onSearch(e.target.value);
   };
 
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMinPrice(e.target.value);
-    if (isValidated) {
-      onPriceChange(Number(e.target.value), Number(maxPrice));
-    }
+    const newMinPrice = e.target.value;
+    setMinPrice(newMinPrice);
+    onPriceChange(Number(newMinPrice) || 0, Number(maxPrice) || 0);
   };
 
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMaxPrice(e.target.value);
-    if (isValidated) {
-      onPriceChange(Number(minPrice), Number(e.target.value));
-    }
+    const newMaxPrice = e.target.value;
+    setMaxPrice(newMaxPrice);
+    onPriceChange(Number(minPrice) || 0, Number(newMaxPrice) || 0);
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value);
-    if (isValidated) {
-      onCategoryChange(e.target.value);
-    }
+    onCategoryChange(e.target.value);
   };
 
   const handleExperienceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedExperience(e.target.value);
-    if (isValidated) {
-      onExperienceChange(e.target.value);
-    }
-  };
-
-  const handleActionButton = () => {
-    if (isValidated) {
-      // Réinitialiser
-      setSearchValue("");
-      setMinPrice("");
-      setMaxPrice("");
-      setSelectedCategory("Toutes les catégories");
-      setSelectedExperience("Tous les niveaux");
-      setIsValidated(false);
-      onReset();
-    } else {
-      // Valider
-      onSearch(searchValue);
-      onPriceChange(Number(minPrice), Number(maxPrice));
-      onCategoryChange(selectedCategory);
-      onExperienceChange(selectedExperience);
-      setIsValidated(true);
-    }
+    onExperienceChange(e.target.value);
   };
 
   return (
@@ -177,22 +147,6 @@ export default function SidebarFilter({
             </select>
           </div>
         </div>
-
-        <button
-          type="button"
-          className={`action-button ${isValidated ? "reset" : "validate"}`}
-          onClick={handleActionButton}
-        >
-          {isValidated ? (
-            <>
-              <FiX /> Réinitialiser
-            </>
-          ) : (
-            <>
-              <FiCheck /> Valider
-            </>
-          )}
-        </button>
       </div>
     </div>
   );
