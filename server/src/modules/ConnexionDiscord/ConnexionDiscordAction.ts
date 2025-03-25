@@ -1,7 +1,7 @@
-import type { RequestHandler } from "express";
 import axios from "axios";
-import ConnexionDiscordRepository from "./ConnexionDiscordRepository";
+import type { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
+import ConnexionDiscordRepository from "./ConnexionDiscordRepository";
 
 const ConnexionDiscord: RequestHandler = async (req, res) => {
   const code = req.query.code;
@@ -29,7 +29,7 @@ const ConnexionDiscord: RequestHandler = async (req, res) => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-      }
+      },
     );
 
     const { access_token } = tokenResponse.data;
@@ -68,7 +68,7 @@ const ConnexionDiscord: RequestHandler = async (req, res) => {
     const token = jwt.sign(
       tokenPayload,
       process.env.APP_SECRET || "defaultSecret",
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     // Stocker le token dans un cookie HttpOnly
@@ -97,7 +97,7 @@ const getCurrentUser: RequestHandler = async (req, res) => {
   try {
     const decoded = jwt.verify(
       token,
-      process.env.APP_SECRET || "defaultSecret"
+      process.env.APP_SECRET || "defaultSecret",
     );
     res.json(decoded);
   } catch (err) {

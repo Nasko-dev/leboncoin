@@ -1,8 +1,7 @@
 // Load the express module to create a web application
-
-import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import express from "express";
 
 const app = express();
 
@@ -30,7 +29,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-  })
+  }),
 );
 
 // If you need to allow extra origins, you can add something like this:

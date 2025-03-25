@@ -53,7 +53,7 @@ createRoot(rootElement).render(
     <UserProvider>
       <RouterProvider router={router} />
     </UserProvider>
-  </StrictMode>
+  </StrictMode>,
 );
 
 /**

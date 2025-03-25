@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { FiSearch, FiX, FiCheck } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { FiCheck, FiSearch, FiX } from "react-icons/fi";
 import "./SidebarFilter.css";
 
 interface SidebarFilterProps {
@@ -23,7 +23,7 @@ export default function SidebarFilter({
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(
-    "Toutes les catégories"
+    "Toutes les catégories",
   );
   const [selectedExperience, setSelectedExperience] =
     useState("Tous les niveaux");

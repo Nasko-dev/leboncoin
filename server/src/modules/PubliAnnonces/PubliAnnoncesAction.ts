@@ -1,8 +1,8 @@
 // PubliAnnoncesAction.ts
-import type { Request, Response, RequestHandler } from "express";
+import type { Request, RequestHandler, Response } from "express";
 import {
-  PubliAnnoncesRepository,
   type CreateAnnonce,
+  PubliAnnoncesRepository,
 } from "./PubliAnnoncesRepository";
 
 export class PubliAnnoncesAction {
@@ -32,7 +32,6 @@ export class PubliAnnoncesAction {
       description,
       price: price ? Number(price) : undefined,
       user_id,
-      date,
     };
 
     try {

@@ -1,5 +1,5 @@
 // src/context/UserContext.tsx
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export interface User {
   id: number;
@@ -30,7 +30,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => setUser(data))
       .catch((err) =>
-        console.error("Erreur lors de la récupération de l'utilisateur :", err)
+        console.error("Erreur lors de la récupération de l'utilisateur :", err),
       );
   }, []);
 
@@ -45,7 +45,7 @@ export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
     throw new Error(
-      "useUser doit être utilisé à l'intérieur d'un UserProvider"
+      "useUser doit être utilisé à l'intérieur d'un UserProvider",
     );
   }
   return context;

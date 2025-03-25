@@ -1,7 +1,7 @@
 import "./PageAnnonces.css";
+import { UserProvider } from "../../Context/UserContext";
 import Annonces from "../../composants/Annonces/Annonces";
 import Navbar from "../../composants/NavBar/NavBar";
-import { UserProvider } from "../../Context/UserContext";
 
 export default function PageAnnonces() {
   return (

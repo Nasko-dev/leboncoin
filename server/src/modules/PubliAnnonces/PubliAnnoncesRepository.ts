@@ -56,8 +56,8 @@ export class PubliAnnoncesRepository {
       userId,
     ];
 
-    console.log("Requête SQL:", query);
-    console.log("Valeurs:", values);
+    console.info("Requête SQL:", query);
+    console.info("Valeurs:", values);
 
     try {
       const [result] = await databaseClient.execute(query, values);

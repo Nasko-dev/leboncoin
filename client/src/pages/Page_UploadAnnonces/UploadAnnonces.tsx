@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FiUpload, FiDollarSign, FiClock, FiTag, FiUser } from "react-icons/fi";
-import Navbar from "../../composants/NavBar/NavBar";
+import { FiClock, FiDollarSign, FiTag, FiUpload, FiUser } from "react-icons/fi";
 import { useUser } from "../../Context/UserContext";
+import Navbar from "../../composants/NavBar/NavBar";
 import "./UploadAnnonces.css";
 
 export default function UploadAnnonces() {
@@ -43,7 +43,7 @@ export default function UploadAnnonces() {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.error || "Erreur lors de l'envoi de l'annonce"
+          errorData.error || "Erreur lors de l'envoi de l'annonce",
         );
       }
 
@@ -67,7 +67,7 @@ export default function UploadAnnonces() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({
       ...formData,

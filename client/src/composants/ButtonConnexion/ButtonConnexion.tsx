@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useUser } from "../../Context/UserContext";
+import { useEffect, useState } from "react";
 import "./ButtonConnexion.css";
 
 interface User {
@@ -39,14 +38,14 @@ export default function ButtonConnexion() {
   const RESPONSE_TYPE = "code";
 
   const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(
-    REDIRECT_URI
+    REDIRECT_URI,
   )}&response_type=${RESPONSE_TYPE}&scope=${encodeURIComponent(SCOPE)}`;
 
   const handleConnexion = () => {
     window.location.href = discordAuthUrl;
   };
 
-  const getAvatarUrl = (userId: string, avatarHash: string) => {
+  const getAvatarUrl = (avatarHash: string) => {
     if (!avatarHash || !user)
       return "https://cdn.discordapp.com/embed/avatars/0.png";
     return `https://cdn.discordapp.com/avatars/${user.discord_id}/${avatarHash}.png`;
@@ -58,7 +57,7 @@ export default function ButtonConnexion() {
         <div className="user-info">
           <span className="username">{user.global_name}</span>
           <img
-            src={getAvatarUrl(user.id, user.avatar)}
+            src={getAvatarUrl(user.avatar)}
             alt={`Avatar de ${user.global_name}`}
             className="avatar"
             width={40}
