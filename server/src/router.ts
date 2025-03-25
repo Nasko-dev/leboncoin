@@ -7,11 +7,19 @@ const router = express.Router();
 /* ************************************************************************* */
 
 // Define item-related routes
+import ConnexionDiscord from "./modules/ConnexionDiscord/ConnexionDiscordAction";
+import { PubliAnnoncesAction } from "./modules/PubliAnnonces/PubliAnnoncesAction";
 import itemActions from "./modules/item/itemActions";
 
 router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
 router.post("/api/items", itemActions.add);
+
+router.get("/auth/discord/callback", ConnexionDiscord.ConnexionDiscord);
+router.get("/api/me", ConnexionDiscord.getCurrentUser);
+
+router.post("/api/annonces", new PubliAnnoncesAction().createAnnonce);
+router.get("/api/annonces", new PubliAnnoncesAction().getAnnonces);
 
 /* ************************************************************************* */
 

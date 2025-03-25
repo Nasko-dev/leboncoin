@@ -24,4 +24,29 @@ body {
 
   /* BackGround */
   --background-color: rgba(10, 10, 10, 0.8);
+
+  /* Text */
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+button {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
 }
