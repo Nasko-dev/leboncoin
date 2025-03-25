@@ -1,12 +1,38 @@
-.cursor {
-  color: #38bdf8;
+.typewriter {
+  display: inline-block;
+  position: relative;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.animate-gradient-text {
-  background: linear-gradient(45deg, #38bdf8, #818cf8);
-  background-clip: text;
+.typed-text {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background-color: #3b82f6;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.typewriter .typed-text {
+  background: linear-gradient(45deg, #fff, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  font-size: 2rem;
+  font-weight: 600;
 }

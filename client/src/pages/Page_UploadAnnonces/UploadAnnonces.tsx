@@ -18,17 +18,24 @@ export default function UploadAnnonces() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!user) {
+    if (!user || !user.discord_id) {
       alert("Vous devez être connecté pour publier une annonce");
       return;
     }
 
+    if (!formData.title || !formData.description) {
+      alert("Le titre et la description sont obligatoires");
+      return;
+    }
+
     const dataToSend = {
-      title: formData.title,
-      description: formData.description,
-      price: Number.parseInt(formData.budget),
-      duree: formData.duration || "Non spécifiée",
-      user_id: user.id,
+      title: formData.title.trim(),
+      description: formData.description.trim(),
+      price: formData.budget ? Number.parseInt(formData.budget) : undefined,
+      duree: formData.duration ? formData.duration.trim() : "Non spécifiée",
+      user_id: user.discord_id,
+      category: formData.category || undefined,
+      skills: formData.skills || undefined,
     };
 
     try {
@@ -40,14 +47,13 @@ export default function UploadAnnonces() {
         body: JSON.stringify(dataToSend),
       });
 
+      console.info(dataToSend);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
           errorData.error || "Erreur lors de l'envoi de l'annonce",
         );
       }
-
-      // const result = await response.json();
 
       // Réinitialiser le formulaire
       setFormData({
