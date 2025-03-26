@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SidebarFilter from "../SidebarFilter/SidebarFilter";
 import "./Annonces.css";
 
@@ -9,6 +10,10 @@ interface Annonce {
   price: number;
   created_at: string;
   updated_at: string;
+  category: {
+    id: number;
+    name: string;
+  };
   user: {
     username: string;
     global_name: string;
@@ -18,54 +23,38 @@ interface Annonce {
 }
 
 export default function Annonces() {
+  const navigate = useNavigate();
   const [annonces, setAnnonces] = useState<Annonce[]>([]);
-  const [filteredAnnonces, setFilteredAnnonces] = useState<Annonce[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
+  const [searchValue, setSearchValue] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
 
   useEffect(() => {
     const fetchAnnonces = async () => {
       try {
-        const response = await fetch("http://localhost:3310/api/annonces");
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des annonces");
+        const url = new URL("http://localhost:3310/api/annonces");
+        if (categoryFilter) {
+          url.searchParams.append("category", categoryFilter);
         }
+        const response = await fetch(url.toString());
         const data = await response.json();
         setAnnonces(data);
-        setFilteredAnnonces(data);
-      } catch (error) {
-        console.error("Erreur:", error);
+      } catch (err) {
+        console.error("Erreur lors du chargement des annonces :", err);
       }
     };
+
     fetchAnnonces();
-  }, []);
+  }, [categoryFilter]);
 
   const handleSearch = (query: string) => {
-    const filtered = annonces.filter(
-      (annonce) =>
-        annonce.title.toLowerCase().includes(query.toLowerCase()) ||
-        annonce.description.toLowerCase().includes(query.toLowerCase()),
-    );
-    setFilteredAnnonces(filtered);
+    setSearchValue(query);
   };
 
   const handlePriceChange = (min: number, max: number) => {
-    const filtered = annonces.filter((annonce) => {
-      if (!min && !max) return true;
-      if (!min) return annonce.price <= max;
-      if (!max) return annonce.price >= min;
-      return annonce.price >= min && annonce.price <= max;
-    });
-    setFilteredAnnonces(filtered);
-  };
-
-  const handleCategoryChange = (category: string) => {
-    if (category === "Toutes les catégories") {
-      setFilteredAnnonces(annonces);
-      return;
-    }
-    const filtered = annonces.filter((annonce) =>
-      annonce.title.toLowerCase().includes(category.toLowerCase()),
-    );
-    setFilteredAnnonces(filtered);
+    setMinPrice(min);
+    setMaxPrice(max);
   };
 
   const getAvatarUrl = (user: Annonce["user"] | undefined) => {
@@ -73,6 +62,21 @@ export default function Annonces() {
     const ext = user.avatar.startsWith("a_") ? "gif" : "png";
     return `https://cdn.discordapp.com/avatars/${user.discord_id}/${user.avatar}.${ext}`;
   };
+
+  const handleVoirPlus = (id: number) => {
+    navigate(`/annonces/${id}`);
+  };
+
+  const filteredAnnonces = annonces.filter((annonce) => {
+    const matchesSearch =
+      annonce.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+      annonce.description.toLowerCase().includes(searchValue.toLowerCase());
+
+    const matchesMinPrice = !minPrice || annonce.price >= minPrice;
+    const matchesMaxPrice = !maxPrice || annonce.price <= maxPrice;
+
+    return matchesSearch && matchesMinPrice && matchesMaxPrice;
+  });
 
   return (
     <div className="Tableaux-Annonces">
@@ -101,9 +105,9 @@ export default function Annonces() {
       <SidebarFilter
         onSearch={handleSearch}
         onPriceChange={handlePriceChange}
-        onCategoryChange={handleCategoryChange}
+        onCategoryChange={(categoryId) => setCategoryFilter(categoryId)}
         onExperienceChange={() => {}}
-        onReset={() => setFilteredAnnonces(annonces)}
+        onReset={() => setSearchValue("")}
       />
       <div className="annonces">
         {filteredAnnonces.map((annonce) => {
@@ -158,7 +162,9 @@ export default function Annonces() {
                     </div>
                   </div>
                 </div>
-                <div className="category-badge">Freelance</div>
+                <div className="category-badge">
+                  {annonce.category?.name || "Sans catégorie"}
+                </div>
               </div>
               <div className="annonce-content">
                 <h2>{annonce.title}</h2>
@@ -170,7 +176,11 @@ export default function Annonces() {
                     {new Date(annonce.created_at).toLocaleDateString()}
                   </span>
                 </div>
-                <button type="button" className="voir-plus">
+                <button
+                  type="button"
+                  className="voir-plus"
+                  onClick={() => handleVoirPlus(annonce.id)}
+                >
                   Voir plus
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -1,0 +1,4 @@
+ALTER TABLE annonces
+ADD COLUMN category_id INT,
+ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT "active",
+ADD FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL; 

@@ -10,6 +10,11 @@ interface SidebarFilterProps {
   onReset: () => void;
 }
 
+interface categories {
+  id: number;
+  name: string;
+}
+
 export default function SidebarFilter({
   onSearch,
   onPriceChange,
@@ -20,6 +25,7 @@ export default function SidebarFilter({
   const [searchValue, setSearchValue] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [categories, setCategories] = useState<categories[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(
     "Toutes les catégories",
   );
@@ -36,17 +42,14 @@ export default function SidebarFilter({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const categories = [
-    "Toutes les catégories",
-    "Développement",
-    "Design",
-    "Marketing",
-    "Rédaction",
-    "Traduction",
-    "Administration",
-    "Conseil",
-    "Data Science",
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch("http://localhost:3310/api/categories");
+      const data = await response.json();
+      setCategories(data);
+    };
+    fetchCategories();
+  }, []);
 
   const experiences = [
     "Tous les niveaux",
@@ -71,11 +74,6 @@ export default function SidebarFilter({
     const newMaxPrice = e.target.value;
     setMaxPrice(newMaxPrice);
     onPriceChange(Number(minPrice) || 0, Number(newMaxPrice) || 0);
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-    onCategoryChange(e.target.value);
   };
 
   const handleExperienceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -122,10 +120,17 @@ export default function SidebarFilter({
         <div className="filter-section">
           <h3>Catégories</h3>
           <div className="category-select">
-            <select value={selectedCategory} onChange={handleCategoryChange}>
+            <select
+              value={selectedCategory}
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                onCategoryChange(e.target.value); // on envoie l'ID (string)
+              }}
+            >
+              <option value="">Toutes les catégories</option>
               {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
+                <option key={category.id} value={category.id}>
+                  {category.name}
                 </option>
               ))}
             </select>

@@ -10,6 +10,8 @@ import { UserProvider } from "./Context/UserContext";
 import App from "./App";
 import Acceil from "./pages/Page_Acceil/Acceil";
 import PageAnnonces from "./pages/Page_Annonces/PageAnnonces";
+import DeteilAnnonce from "./pages/Page_DeteilAnnonce/DeteilAnnonce";
+import MesAnnonces from "./pages/Page_MesAnnonces/MesAnnonces";
 import Uploadannonces from "./pages/Page_UploadAnnonces/UploadAnnonces";
 
 // Import additional components for new routes
@@ -36,6 +38,18 @@ const router = createBrowserRouter([
     path: "/upload-annonces",
     element: <Uploadannonces />,
   },
+  {
+    path: "/annonces/:id",
+    element: <DeteilAnnonce />,
+  },
+  {
+    path: "/mes-annonces",
+    element: <MesAnnonces />,
+  },
+  // {
+  //   path: "/mes-candidatures",
+  //   element: <MesCandidatures />,
+  // },
   // Try adding a new route! For example, "/about" with an About component
 ]);
 

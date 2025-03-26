@@ -1,11 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiClock, FiDollarSign, FiTag, FiUpload, FiUser } from "react-icons/fi";
 import { useUser } from "../../Context/UserContext";
 import Navbar from "../../composants/NavBar/NavBar";
+import Notification from "../../composants/Notification/Notification";
+import type { NotificationType } from "../../composants/Notification/Notification";
 import "./UploadAnnonces.css";
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface NotificationState {
+  show: boolean;
+  message: string;
+  type: NotificationType;
+}
 
 export default function UploadAnnonces() {
   const { user } = useUser();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [notification, setNotification] = useState<NotificationState>({
+    show: false,
+    message: "",
+    type: "info",
+  });
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -15,16 +34,26 @@ export default function UploadAnnonces() {
     skills: "",
   });
 
+  const showNotification = (message: string, type: NotificationType) => {
+    setNotification({ show: true, message, type });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!user || !user.discord_id) {
-      alert("Vous devez être connecté pour publier une annonce");
+      showNotification(
+        "Vous devez être connecté pour publier une annonce",
+        "error",
+      );
       return;
     }
 
     if (!formData.title || !formData.description) {
-      alert("Le titre et la description sont obligatoires");
+      showNotification(
+        "Le titre et la description sont obligatoires",
+        "warning",
+      );
       return;
     }
 
@@ -34,7 +63,9 @@ export default function UploadAnnonces() {
       price: formData.budget ? Number.parseInt(formData.budget) : undefined,
       duree: formData.duration ? formData.duration.trim() : "Non spécifiée",
       user_id: user.discord_id,
-      category: formData.category || undefined,
+      category: formData.category
+        ? { id: Number.parseInt(formData.category) }
+        : undefined,
       skills: formData.skills || undefined,
     };
 
@@ -47,7 +78,6 @@ export default function UploadAnnonces() {
         body: JSON.stringify(dataToSend),
       });
 
-      console.info(dataToSend);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -55,7 +85,6 @@ export default function UploadAnnonces() {
         );
       }
 
-      // Réinitialiser le formulaire
       setFormData({
         title: "",
         description: "",
@@ -64,11 +93,23 @@ export default function UploadAnnonces() {
         category: "",
         skills: "",
       });
-      alert("Votre annonce a été publiée avec succès !");
+      showNotification("Votre annonce a été publiée avec succès !", "success");
     } catch (error) {
-      alert("Une erreur est survenue lors de la publication de l'annonce.");
+      showNotification(
+        "Une erreur est survenue lors de la publication de l'annonce",
+        "error",
+      );
     }
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch("http://localhost:3310/api/categories");
+      const data = await response.json();
+      setCategories(data);
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -84,6 +125,13 @@ export default function UploadAnnonces() {
   return (
     <>
       <Navbar />
+      {notification.show && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification({ ...notification, show: false })}
+        />
+      )}
       <div className="upload-container">
         <div className="upload-header">
           <h1>Publier une annonce</h1>
@@ -135,13 +183,12 @@ export default function UploadAnnonces() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Sélectionnez une catégorie</option>
-                  <option value="development">Développement</option>
-                  <option value="design">Design</option>
-                  <option value="marketing">Marketing</option>
-                  <option value="writing">Rédaction</option>
-                  <option value="translation">Traduction</option>
-                  <option value="administration">Administration</option>
+                  <option value="">-- Sélectionnez une catégorie --</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

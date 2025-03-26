@@ -1,17 +1,22 @@
 import {
-  FiArrowRight,
   FiAward,
   FiBriefcase,
+  FiCheckCircle,
+  FiClock,
   FiGithub,
+  FiHeart,
   FiLinkedin,
   FiMail,
+  FiShield,
   FiStar,
+  FiTrendingUp,
   FiTwitter,
   FiUser,
 } from "react-icons/fi";
 import "./Acceil.css";
 import TypewriterText from "../../composants/Annimation/TypewriterText/TypewriterText";
 import Navbar from "../../composants/NavBar/NavBar";
+
 export default function Acceil() {
   return (
     <div className="modern-landing">
@@ -33,7 +38,7 @@ export default function Acceil() {
           </div>
           <div className="hero-buttons">
             <button type="button" className="glass-button primary">
-              Commencer <FiArrowRight />
+              Commencer
             </button>
             <button type="button" className="glass-button secondary">
               En savoir plus
@@ -84,6 +89,27 @@ export default function Acceil() {
               duration: "12 mois",
               skills: ["Agile", "Scrum", "Leadership"],
             },
+            {
+              title: "Data Scientist",
+              category: "Data Science",
+              budget: "650€/jour",
+              duration: "4 mois",
+              skills: ["Python", "Machine Learning", "SQL"],
+            },
+            {
+              title: "DevOps Engineer",
+              category: "Infrastructure",
+              budget: "550€/jour",
+              duration: "8 mois",
+              skills: ["AWS", "Docker", "Kubernetes"],
+            },
+            {
+              title: "Content Manager",
+              category: "Marketing",
+              budget: "450€/jour",
+              duration: "6 mois",
+              skills: ["SEO", "Content Strategy", "Social Media"],
+            },
           ].map((mission) => (
             <div key={mission.title} className="glass-card mission-card">
               <div className="card-content">
@@ -107,7 +133,7 @@ export default function Acceil() {
                   ))}
                 </div>
                 <button type="button" className="card-button">
-                  Voir la mission <FiArrowRight />
+                  Voir la mission
                 </button>
               </div>
             </div>
@@ -126,33 +152,101 @@ export default function Acceil() {
             </p>
             <div className="about-features">
               <div className="feature-item">
-                <div className="feature-icon">🚀</div>
-                <div className="feature-text">
-                  <h4>Processus Simplifié</h4>
-                  <p>Trouvez la mission parfaite en quelques clics</p>
+                <div className="feature-icon">
+                  <FiShield />
                 </div>
-              </div>
-              <div className="feature-item">
-                <div className="feature-icon">🛡️</div>
                 <div className="feature-text">
                   <h4>Paiements Sécurisés</h4>
                   <p>Garantie de paiement pour chaque mission</p>
                 </div>
               </div>
               <div className="feature-item">
-                <div className="feature-icon">💎</div>
+                <div className="feature-icon">
+                  <FiClock />
+                </div>
+                <div className="feature-text">
+                  <h4>Processus Rapide</h4>
+                  <p>Trouvez la mission parfaite en quelques clics</p>
+                </div>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <FiCheckCircle />
+                </div>
                 <div className="feature-text">
                   <h4>Talents Vérifiés</h4>
                   <p>Une communauté de professionnels d'élite</p>
+                </div>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <FiTrendingUp />
+                </div>
+                <div className="feature-text">
+                  <h4>Croissance Continue</h4>
+                  <p>Évoluez dans votre carrière freelance</p>
                 </div>
               </div>
             </div>
           </div>
           <div className="about-image">
             <div className="image-container">
-              <img src="/path/to/about-image.jpg" alt="Équipe LeBonFreelance" />
+              <img src="/images/about-team.jpg" alt="Équipe LeBonFreelance" />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="testimonials-section">
+        <h2 className="section-title">Ce qu'ils disent de nous</h2>
+        <div className="testimonials-grid">
+          {[
+            {
+              name: "Marie Laurent",
+              role: "Freelance Designer",
+              image: "/images/testimonial-1.jpg",
+              text: "LeBonFreelance m'a permis de trouver des projets passionnants et de développer mon portfolio.",
+            },
+            {
+              name: "Thomas Dubois",
+              role: "Client",
+              image: "/images/testimonial-2.jpg",
+              text: "Une plateforme exceptionnelle qui nous a permis de trouver le talent parfait pour notre projet.",
+            },
+            {
+              name: "Sophie Martin",
+              role: "Freelance Developer",
+              image: "/images/testimonial-3.jpg",
+              text: "La meilleure plateforme pour les freelances en France. Je la recommande vivement !",
+            },
+          ].map((testimonial) => (
+            <div key={testimonial.name} className="testimonial-card">
+              <div className="testimonial-content">
+                <FiHeart className="testimonial-icon" />
+                <p className="testimonial-text">{testimonial.text}</p>
+                <div className="testimonial-author">
+                  <img src={testimonial.image} alt={testimonial.name} />
+                  <div>
+                    <h4>{testimonial.name}</h4>
+                    <p>{testimonial.role}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="cta-section">
+        <div className="cta-content">
+          <h2>Prêt à commencer votre aventure freelance ?</h2>
+          <p>
+            Rejoignez notre communauté de talents et trouvez votre prochaine
+            mission
+          </p>
+          <button type="button" className="glass-button primary">
+            Créer un compte
+          </button>
         </div>
       </section>
 
@@ -168,18 +262,21 @@ export default function Acceil() {
               <a href="#missions">Missions</a>
               <a href="#talents">Talents</a>
               <a href="#about">À propos</a>
+              <a href="#testimonials">Témoignages</a>
             </div>
             <div className="footer-section">
               <h4>Ressources</h4>
               <a href="#blog">Blog</a>
               <a href="#guides">Guides</a>
               <a href="#support">Support</a>
+              <a href="#faq">FAQ</a>
             </div>
             <div className="footer-section">
               <h4>Légal</h4>
               <a href="#privacy">Confidentialité</a>
               <a href="#terms">Conditions</a>
               <a href="#cookies">Cookies</a>
+              <a href="#contact">Contact</a>
             </div>
           </div>
           <div className="footer-social">

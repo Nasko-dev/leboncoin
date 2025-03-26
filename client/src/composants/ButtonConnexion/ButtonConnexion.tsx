@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
 import "./ButtonConnexion.css";
 
 interface User {
@@ -45,6 +46,18 @@ export default function ButtonConnexion() {
     window.location.href = discordAuthUrl;
   };
 
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:3310/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion:", error);
+    }
+  };
+
   const getAvatarUrl = (avatarHash: string) => {
     if (!avatarHash || !user)
       return "https://cdn.discordapp.com/embed/avatars/0.png";
@@ -54,16 +67,11 @@ export default function ButtonConnexion() {
   return (
     <div className="button-connexion-container">
       {user ? (
-        <div className="user-info">
-          <span className="username">{user.global_name}</span>
-          <img
-            src={getAvatarUrl(user.avatar)}
-            alt={`Avatar de ${user.global_name}`}
-            className="avatar"
-            width={40}
-            height={40}
-          />
-        </div>
+        <ProfileDropdown
+          username={user.global_name}
+          avatarUrl={getAvatarUrl(user.avatar)}
+          onLogout={handleLogout}
+        />
       ) : (
         <button
           type="button"
