@@ -23,3 +23,17 @@ CREATE TABLE annonces (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO categories (name) VALUES
+  ('Toutes les catégories'),
+  ('Développement'),
+  ('Design'),
+  ('Marketing'),
+  ('Rédaction'),
+  ('Traduction'),
+  ('Conseil');

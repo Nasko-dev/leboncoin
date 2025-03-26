@@ -12,8 +12,6 @@ export default function Navbar() {
         <div className="nav-links">
           <Link to="/annonces">Missions</Link>
           <Link to="/upload-annonces">Publier une mission</Link>
-          <a href="#talents">Talents</a>
-          <a href="#about">À propos</a>
           <div className="nav-cta">
             <ButtonConnexion />
           </div>

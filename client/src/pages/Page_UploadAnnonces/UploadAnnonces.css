@@ -15,9 +15,7 @@
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #fff, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #3b82f6;
   }
 
   p {
@@ -52,7 +50,7 @@
   }
 
   .input-field {
-    width: 40rem;
+    width: 47rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
@@ -111,6 +109,10 @@
 
   &:focus-within .input-icon {
     color: #60a5fa;
+  }
+
+  option {
+    background: #0a0a0ad0;
   }
 }
 

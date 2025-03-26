@@ -106,4 +106,13 @@ const getCurrentUser: RequestHandler = async (req, res) => {
   }
 };
 
-export default { ConnexionDiscord, getCurrentUser };
+const logout: RequestHandler = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+  res.status(200).json({ message: "Déconnecté avec succès" });
+};
+
+export default { ConnexionDiscord, getCurrentUser, logout };

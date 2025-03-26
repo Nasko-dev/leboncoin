@@ -90,7 +90,7 @@
       }
 
       .user-header {
-        padding: 2rem;
+        padding: 2rem 0rem;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -174,8 +174,9 @@
         }
 
         .category-badge {
+          display: inline-block;
           background: rgba(59, 130, 246, 0.1);
-          padding: 0.5rem 1rem;
+          padding: 0.3rem 0.8rem;
           border-radius: 30px;
           font-size: 0.9rem;
           color: #3b82f6;

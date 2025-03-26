@@ -34,16 +34,16 @@
     cursor: pointer;
     transition: all 0.3s ease;
 
-    /* background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    border-radius: 20px;
-    font-size: 0.9rem;
-    color: #38bdf8;
-    margin-bottom: 2rem; */
-
     &:hover {
-      background: rgba(56, 191, 248, 0.425);
+      background: rgba(56, 191, 248, 0.233);
       transform: translateY(-2px);
     }
   }
+}
+
+/* Styles spécifiques pour le nom d'utilisateur dans le ProfileDropdown */
+.profile-dropdown .profile-trigger .username {
+  color: #38bdf8;
+  font-weight: 500;
+  font-size: 14px;
 }
