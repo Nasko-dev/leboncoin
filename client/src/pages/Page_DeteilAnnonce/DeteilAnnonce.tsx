@@ -12,6 +12,7 @@ import {
 import { useParams } from "react-router-dom";
 import Navbar from "../../composants/NavBar/NavBar";
 import "./DeteilAnnonce.css";
+import PostulerButton from "../../composants/PostulerButton/PostulerButton";
 
 interface Annonce {
   id: number;
@@ -132,10 +133,7 @@ export default function DeteilAnnonce() {
               </div>
 
               <div className="user-actions">
-                <button type="button" className="contact-button">
-                  <FiUser className="icon" />
-                  Postuler a l'offre
-                </button>
+                <PostulerButton missionId={annonce.id.toString()} />
               </div>
             </div>
 

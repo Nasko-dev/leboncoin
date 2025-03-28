@@ -80,7 +80,7 @@ export default function ProfileDropdown({
             </a>
             <a
               onClick={() => navigate("/MesCandidatures.tsx")}
-              href="/mes-annonces"
+              href="/mes-candidatures"
               className="dropdown-item"
             >
               <FiBriefcase className="item-icon" />

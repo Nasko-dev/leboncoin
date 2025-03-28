@@ -10,10 +10,11 @@ import { UserProvider } from "./Context/UserContext";
 import App from "./App";
 import Acceil from "./pages/Page_Acceil/Acceil";
 import PageAnnonces from "./pages/Page_Annonces/PageAnnonces";
+import Candidatures from "./pages/Page_Candidatures/Candidatures";
 import DeteilAnnonce from "./pages/Page_DeteilAnnonce/DeteilAnnonce";
 import MesAnnonces from "./pages/Page_MesAnnonces/MesAnnonces";
+import Profil from "./pages/Page_Profil/Profil";
 import Uploadannonces from "./pages/Page_UploadAnnonces/UploadAnnonces";
-
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
 
@@ -46,10 +47,14 @@ const router = createBrowserRouter([
     path: "/mes-annonces",
     element: <MesAnnonces />,
   },
-  // {
-  //   path: "/mes-candidatures",
-  //   element: <MesCandidatures />,
-  // },
+  {
+    path: "/mes-candidatures",
+    element: <Candidatures />,
+  },
+  {
+    path: "/mon-profil",
+    element: <Profil />,
+  },
   // Try adding a new route! For example, "/about" with an About component
 ]);
 

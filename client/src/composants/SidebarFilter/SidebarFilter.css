@@ -7,10 +7,11 @@
   background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 
   &.scrolled {
     top: 0;
@@ -18,10 +19,13 @@
     transform: none;
     left: 0;
     border-radius: 0;
-    height: 65px;
+    height: auto;
+    min-height: 65px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
     .filter-content {
-      height: 65px;
+      height: auto;
+      min-height: 65px;
     }
   }
 
@@ -176,16 +180,20 @@
 
 @media (max-width: 1200px) {
   .sidebar-filter {
+    width: 90%;
+    padding: 1.25rem;
+    border-radius: 16px;
+
     .filter-content {
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 1.5rem;
 
       .filter-section {
-        padding-right: 1rem;
+        padding-right: 1.5rem;
       }
 
       .search-box {
-        min-width: 250px;
+        min-width: 200px;
       }
     }
   }
@@ -193,33 +201,69 @@
 
 @media (max-width: 768px) {
   .sidebar-filter {
+    width: 100%;
+    top: 0;
+    transform: none;
+    left: 0;
+    border-radius: 0;
     padding: 1rem;
+    position: relative;
+    background: rgba(10, 10, 10, 0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
 
     .filter-content {
       flex-direction: column;
       align-items: stretch;
+      gap: 1.25rem;
 
       .filter-section {
         flex-wrap: wrap;
         padding-right: 0;
         border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 1.25rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-bottom-color: rgba(255, 255, 255, 0.15);
+        }
 
         &:last-child {
           border-bottom: none;
           padding-bottom: 0;
         }
 
+        h3 {
+          font-size: 0.9rem;
+          margin-bottom: 0.5rem;
+        }
+
         .search-box {
           min-width: 100%;
+          input {
+            padding: 0.85rem 1rem 0.85rem 2.75rem;
+            font-size: 1rem;
+          }
         }
 
         .price-range {
           flex-wrap: wrap;
+          width: 100%;
+          gap: 0.75rem;
 
           .price-input {
-            width: 100%;
+            width: calc(50% - 0.375rem);
+            padding: 0.85rem;
+            font-size: 1rem;
+          }
+        }
+
+        .category-select {
+          width: 100%;
+          select {
+            padding: 0.85rem 2.75rem 0.85rem 1rem;
+            font-size: 1rem;
           }
         }
       }
@@ -227,6 +271,44 @@
       .reset-button {
         margin-left: 0;
         width: 100%;
+        justify-content: center;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-filter {
+    padding: 0.875rem;
+
+    .filter-content {
+      gap: 1rem;
+
+      .filter-section {
+        padding-bottom: 1rem;
+
+        h3 {
+          font-size: 0.85rem;
+        }
+
+        .price-range {
+          .price-input {
+            width: 100%;
+            padding: 0.75rem;
+          }
+        }
+
+        .search-box input,
+        .category-select select {
+          padding: 0.75rem 2.5rem 0.75rem 1rem;
+        }
+      }
+
+      .reset-button {
+        padding: 0.65rem 1.5rem;
       }
     }
   }

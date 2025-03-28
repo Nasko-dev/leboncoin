@@ -1,25 +1,35 @@
 import {
+  FiArrowRight,
   FiAward,
-  FiBriefcase,
   FiCheckCircle,
-  FiClock,
-  FiGithub,
-  FiHeart,
   FiLinkedin,
   FiMail,
+  FiMapPin,
   FiShield,
   FiStar,
   FiTrendingUp,
   FiTwitter,
-  FiUser,
+  FiClock,
+  FiGithub,
+  FiHeart,
 } from "react-icons/fi";
 import "./Acceil.css";
+import { useNavigate } from "react-router-dom";
 import TypewriterText from "../../composants/Annimation/TypewriterText/TypewriterText";
 import Navbar from "../../composants/NavBar/NavBar";
 
 export default function Acceil() {
+  const navigate = useNavigate();
+
   return (
     <div className="modern-landing">
+      <div className="neon-lines">
+        <div className="neon-line" />
+        <div className="neon-line" />
+        <div className="neon-line" />
+        <div className="neon-line" />
+        <div className="neon-line" />
+      </div>
       <Navbar />
       <section className="hero-section">
         <div className="hero-content">
@@ -37,29 +47,21 @@ export default function Acceil() {
             </span>
           </div>
           <div className="hero-buttons">
-            <button type="button" className="glass-button primary">
-              Commencer
+            <button
+              type="button"
+              className="glass-button primary"
+              onClick={() => navigate("/annonces")}
+            >
+              Voir les missions
+              <FiArrowRight />
             </button>
-            <button type="button" className="glass-button secondary">
-              En savoir plus
+            <button
+              type="button"
+              className="glass-button secondary"
+              onClick={() => navigate("/profil")}
+            >
+              Créer un profil
             </button>
-          </div>
-        </div>
-        <div className="hero-stats">
-          <div className="stat-card">
-            <FiUser className="stat-icon" />
-            <div className="stat-number">50K+</div>
-            <div className="stat-label">Freelances</div>
-          </div>
-          <div className="stat-card">
-            <FiBriefcase className="stat-icon" />
-            <div className="stat-number">15K+</div>
-            <div className="stat-label">Missions</div>
-          </div>
-          <div className="stat-card">
-            <FiStar className="stat-icon" />
-            <div className="stat-number">98%</div>
-            <div className="stat-label">Satisfaction</div>
           </div>
         </div>
       </section>
@@ -74,6 +76,9 @@ export default function Acceil() {
               budget: "600€/jour",
               duration: "6 mois",
               skills: ["React", "TypeScript", "Node.js"],
+              company: "TechCorp",
+              location: "Paris",
+              rating: 4.8,
             },
             {
               title: "UI/UX Designer",
@@ -81,6 +86,9 @@ export default function Acceil() {
               budget: "500€/jour",
               duration: "3 mois",
               skills: ["Figma", "Adobe XD", "Prototyping"],
+              company: "DesignStudio",
+              location: "Lyon",
+              rating: 4.9,
             },
             {
               title: "Chef de Projet Digital",
@@ -88,33 +96,28 @@ export default function Acceil() {
               budget: "700€/jour",
               duration: "12 mois",
               skills: ["Agile", "Scrum", "Leadership"],
-            },
-            {
-              title: "Data Scientist",
-              category: "Data Science",
-              budget: "650€/jour",
-              duration: "4 mois",
-              skills: ["Python", "Machine Learning", "SQL"],
-            },
-            {
-              title: "DevOps Engineer",
-              category: "Infrastructure",
-              budget: "550€/jour",
-              duration: "8 mois",
-              skills: ["AWS", "Docker", "Kubernetes"],
-            },
-            {
-              title: "Content Manager",
-              category: "Marketing",
-              budget: "450€/jour",
-              duration: "6 mois",
-              skills: ["SEO", "Content Strategy", "Social Media"],
+              company: "DigitalPro",
+              location: "Bordeaux",
+              rating: 4.7,
             },
           ].map((mission) => (
             <div key={mission.title} className="glass-card mission-card">
               <div className="card-content">
-                <h3>{mission.title}</h3>
+                <div className="card-header">
+                  <h3>{mission.title}</h3>
+                  <div className="company-info">
+                    <span className="company-name">{mission.company}</span>
+                    <div className="rating">
+                      <FiStar />
+                      <span>{mission.rating}</span>
+                    </div>
+                  </div>
+                </div>
                 <div className="card-category">{mission.category}</div>
+                <div className="location">
+                  <FiMapPin />
+                  <span>{mission.location}</span>
+                </div>
                 <div className="card-details">
                   <div className="detail-item">
                     <span className="detail-label">Budget</span>
@@ -132,8 +135,13 @@ export default function Acceil() {
                     </span>
                   ))}
                 </div>
-                <button type="button" className="card-button">
+                <button
+                  type="button"
+                  className="card-button"
+                  onClick={() => navigate(`/annonces/${mission.id}`)}
+                >
                   Voir la mission
+                  <FiArrowRight />
                 </button>
               </div>
             </div>
@@ -206,23 +214,31 @@ export default function Acceil() {
               role: "Freelance Designer",
               image: "/images/testimonial-1.jpg",
               text: "LeBonFreelance m'a permis de trouver des projets passionnants et de développer mon portfolio.",
+              rating: 5,
             },
             {
               name: "Thomas Dubois",
               role: "Client",
               image: "/images/testimonial-2.jpg",
               text: "Une plateforme exceptionnelle qui nous a permis de trouver le talent parfait pour notre projet.",
+              rating: 5,
             },
             {
               name: "Sophie Martin",
               role: "Freelance Developer",
               image: "/images/testimonial-3.jpg",
               text: "La meilleure plateforme pour les freelances en France. Je la recommande vivement !",
+              rating: 5,
             },
           ].map((testimonial) => (
             <div key={testimonial.name} className="testimonial-card">
               <div className="testimonial-content">
                 <FiHeart className="testimonial-icon" />
+                <div className="testimonial-rating">
+                  {[...Array(testimonial.rating)].map((_) => (
+                    <FiStar key={_} />
+                  ))}
+                </div>
                 <p className="testimonial-text">{testimonial.text}</p>
                 <div className="testimonial-author">
                   <img src={testimonial.image} alt={testimonial.name} />
@@ -244,7 +260,11 @@ export default function Acceil() {
             Rejoignez notre communauté de talents et trouvez votre prochaine
             mission
           </p>
-          <button type="button" className="glass-button primary">
+          <button
+            type="button"
+            className="glass-button primary"
+            onClick={() => navigate("/register")}
+          >
             Créer un compte
           </button>
         </div>
