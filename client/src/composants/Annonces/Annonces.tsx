@@ -89,11 +89,11 @@ export default function Annonces() {
         </p>
         <div className="stats-bar">
           <div className="stat-item">
-            <div className="stat-number">{annonces.length}+</div>
+            <div className="stat-number">100+</div>
             <div className="stat-label">Missions actives</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">50K+</div>
+            <div className="stat-number">120+</div>
             <div className="stat-label">Freelances</div>
           </div>
           <div className="stat-item">

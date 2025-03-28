@@ -70,6 +70,7 @@ export default function UploadAnnonces() {
     };
 
     try {
+      // Envoi à l'API principale
       const response = await fetch("http://localhost:3310/api/annonces", {
         method: "POST",
         headers: {
@@ -85,6 +86,33 @@ export default function UploadAnnonces() {
         );
       }
 
+      // Envoi au bot Discord
+      const botResponse = await fetch("http://localhost:3001/api/annonces", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: formData.title.trim(),
+          description: formData.description.trim(),
+          price: formData.budget ? Number.parseInt(formData.budget) : 0,
+          duree: formData.duration ? formData.duration.trim() : "Non spécifiée",
+          user_id: user.discord_id,
+          category: formData.category
+            ? Number.parseInt(formData.category)
+            : null,
+          skills: formData.skills ? formData.skills.trim() : "Non spécifiées",
+        }),
+      });
+
+      if (!botResponse.ok) {
+        const errorData = await botResponse.json();
+        console.error(
+          "Erreur lors de l'envoi au bot Discord:",
+          errorData.error,
+        );
+      }
+
       setFormData({
         title: "",
         description: "",
@@ -97,7 +125,7 @@ export default function UploadAnnonces() {
     } catch (error) {
       showNotification(
         "Une erreur est survenue lors de la publication de l'annonce",
-        "error",
+        "error"
       );
     }
   };
